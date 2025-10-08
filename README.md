@@ -64,7 +64,7 @@ npm install
 
 # 4. Generate key and migrate
 php artisan key:generate
-php artisan migrate --seed
+php artisan migrate
 
 # 5. Run the app
 php artisan serve
@@ -122,7 +122,7 @@ npm run build
 To refresh database:
 
 ```bash
-php artisan migrate:fresh --seed
+php artisan migrate:fresh
 ```
 
 To clear cache:
