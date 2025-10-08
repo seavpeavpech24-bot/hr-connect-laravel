@@ -67,7 +67,7 @@
 
           <p>Follow these steps to generate one:</p>
           <ol class="list-decimal list-inside space-y-3">
-            <li>Open your Google Account <a href="https://myaccount.google.com/" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">here</a>.</li>
+            <li>Open your Google Account <a href="https://myaccount.google.com/" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">here</a> or https://myaccount.google.com/.</li>
             <li>Go to <strong>Security</strong> → enable <strong>2-Step Verification</strong>.</li>
             <li>Return to the Security page, and find <strong>“App passwords”</strong>.</li>
             <li>Select “Other (Custom name)” and type <code>HR Connect</code>.</li>
