@@ -1,110 +1,160 @@
-# HR Connect – Laravel HR Management System
+# 💼 HR Connect
 
-HR Connect is a free and open-source Laravel application that helps HR teams manage applicants, send interview invitations, and automate approval/rejection emails through Gmail.
+**HR Connect** is a free, open-source Laravel web application built to help Human Resources teams manage applicants efficiently — including invitations, rejections, and approvals — and send professional emails directly through Gmail.
 
-It includes a modern dashboard, applicant tracking, Gmail integration, and one-click setup using Python for non-technical users.
+---
 
-## ✨ Features
+## 🚀 Overview
 
-- **📊 Dashboard Overview** – Track applicant stats and system insights
-- **🧑‍💼 Applicant Management** – Add, edit, approve, or reject applicants
-- **📧 Email Integration** – Send interview, approval, or rejection messages via Gmail
-- **📨 Message History** – View sent email logs and status
-- **⚙️ Settings Panel** – Manage Gmail credentials, app users, and SMTP settings
-- **🧠 Smart Templates** – Predefined Gmail templates for HR use
-- **💻 One-Click Python Launcher** – Auto installs & runs the app for non-coders
+**HR Connect** allows HR teams to:
+- Manage applicant data and job positions
+- Send interview invitations, approval, or rejection messages via Gmail
+- Maintain email history and message templates
+- Work completely locally or deploy to a server
 
-## 🧩 Tech Stack
+---
 
-| Layer      | Technology                  |
-|------------|-----------------------------|
-| Frontend   | Blade + TailwindCSS + Alpine.js |
-| Backend    | Laravel 11                  |
-| Database   | SQLite / MySQL              |
-| Email      | Gmail SMTP                  |
-| Automation | Python 3 (Launcher Script)  |
+## 🧩 Features
 
-## ⚙️ Installation Guide (Developers)
+✅ Applicant management (view, add, edit, delete)  
+✅ Email sending via Gmail (using your App Password)  
+✅ Message templates for invitations, rejections, and approvals  
+✅ Secure environment configuration  
+✅ Built with **Laravel** full stack and **TailwindCSS**  
+✅ Cross-platform compatible (Windows, macOS, Linux)
 
-### 1️⃣ Clone the Repo
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| Backend | Laravel (PHP 10+) |
+| Frontend | Blade + TailwindCSS |
+| Database | SQLite / MySQL |
+| Email | Gmail SMTP (App Password) |
+
+---
+
+## 🧠 Requirements (Developers)
+
+Before cloning or running the project manually, make sure you have:
+
+- PHP 8.2+  
+- Composer  
+- Node.js 18+  
+- npm or yarn  
+- Git  
+
+---
+
+## ⚡ Quick Start (Developers)
+
 ```bash
-git clone https://github.com/yourusername/hr-connect-laravel.git
+# 1. Clone the repo
+git clone https://github.com/seavpeavpech24-bot/hr-connect-laravel.git
 cd hr-connect-laravel
-```
 
-### 2️⃣ Install Dependencies
-```bash
+# 2. Copy environment file
+cp .env.example .env
+
+# 3. Install dependencies
 composer install
 npm install
-```
 
-### 3️⃣ Configure .env
-```bash
-cp .env.example .env
-```
-
-Update the following lines:
-
-```
-APP_NAME=HR Connect
-APP_URL=http://127.0.0.1:8000
-
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your@gmail.com
-MAIL_PASSWORD=your_app_password
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=your@gmail.com
-MAIL_FROM_NAME="HR Connect"
-```
-
-⚠️ Generate an App Password from your Gmail account (not your real password!)
-
-#### 📖 How to create a Gmail App Password
-[Follow Google's guide here](https://support.google.com/accounts/answer/185833)
-
-### 4️⃣ Run Migrations
-```bash
+# 4. Generate key and migrate
+php artisan key:generate
 php artisan migrate --seed
-```
 
-### 5️⃣ Start the App
-```bash
+# 5. Run the app
 php artisan serve
 ```
 
-Visit 👉 http://127.0.0.1:8000
+Then open 👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
-## 💡 For Non-Technical Users
+---
 
-You don’t need to install anything manually!
+## 🗂️ Project Structure
 
-Just double-click the provided file: **HRConnectLauncher.py**
-
-It will automatically:
-
-- install Composer and Node packages
-- run database migrations
-- launch the app in your browser
-
-## 🧠 Folder Overview
 ```
 hr-connect-laravel/
-├── app/              # Laravel app logic
-├── resources/views/  # Blade templates (Dashboard, Messages, Settings, etc.)
-├── public/           # Public assets
-├── database/         # Migrations & seeds
-├── HRConnectLauncher.py  # Python one-click launcher
+├── app/                 # Laravel backend logic
+├── database/            # Migrations & seeders
+├── public/              # Public assets (favicon, logo)
+├── resources/           # Views (Blade, Tailwind)
+├── routes/              # Web & API routes
+├── .env.example         # Environment sample
 └── README.md
 ```
 
-## 🧑‍💻 Developer Info
+---
 
-Developed by SeavPeav PECH  
+## 🔑 Gmail Setup
+
+### How to Generate a Gmail App Password
+
+#### Why You Need It
+Gmail requires an App Password to allow third-party apps like HR Connect to send emails securely. It’s safer and limited to this specific app.
+
+Follow these steps to generate one:
+
+1. Open your Google Account [here](https://myaccount.google.com/security).
+2. Go to Security → enable 2-Step Verification.
+3. Return to the Security page, and find “App passwords”.
+4. Select “Other (Custom name)” and type HR Connect.
+5. Click Create, then copy the 16-character code.
+6. Paste it into your HR Account Settings → “App Password”.
+
+> The app stores credentials locally in `.env` and **never uploads or shares** them.
+
+---
+
+## 🧰 Developer Mode (Advanced)
+
+To rebuild frontend assets:
+
+```bash
+npm run dev
+# or
+npm run build
+```
+
+To refresh database:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+To clear cache:
+
+```bash
+php artisan optimize:clear
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to open a pull request or issue on GitHub.
+
+---
+
+## 💰 Support
+
+For premium support, customization, or troubleshooting, contact me at a fee of $5+.
+
+---
+
+## 📜 License
+
+This project is **MIT Licensed** — free to use, modify, and share.
+
+---
+
+## 🌍 Author
+
+**👨‍💻 Developed by:** SeavPeav PECH  
 🌐 [LinkedIn](https://www.linkedin.com/in/seavpeav-pech-557556254/)  
-• [GitHub](https://github.com/seavpeavpech24-bot)
-
-## ⚖️ License
-
-This project is licensed under the MIT License — free for personal and commercial use. See the [LICENSE](LICENSE) file for details.
+• [GitHub](https://github.com/seavpeavpech24-bot)  
+💬 Open Source • Community Driven • Made with ❤️ in Cambodia
