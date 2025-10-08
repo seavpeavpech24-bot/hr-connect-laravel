@@ -1,123 +1,37 @@
-import os
-import subprocess
-import sys
-import shutil
+import os, subprocess, sys, platform, time
 
-ENV_PATH = ".env"
+def run_command(command, desc=None):
+    print(f"\n{'='*60}\n▶️  {desc or command}\n{'='*60}")
+    result = subprocess.run(command, shell=True)
+    if result.returncode != 0:
+        print(f"❌ Failed: {command}")
+        sys.exit(1)
 
-def check_command(cmd):
-    return shutil.which(cmd) is not None
+def install_dependencies():
+    print("📦 Checking dependencies...")
+    run_command("composer install", "Installing PHP dependencies (Composer)")
+    run_command("npm install", "Installing frontend packages (npm)")
+    run_command("php artisan key:generate", "Generating Laravel key")
+    run_command("php artisan migrate --seed", "Migrating and seeding database")
 
-def run_command(command, shell=True):
-    process = subprocess.Popen(
-        command,
-        shell=shell,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True
-    )
-    while True:
-        line = process.stdout.readline()
-        if line == '' and process.poll() is not None:
-            break
-        if line:
-            print(line.strip())
-    return process.poll()
-
-def setup_env():
-    """Create or update the .env file with Gmail settings"""
-    print("\n⚙️  Checking .env configuration...")
-
-    # If .env does not exist, copy from example if available
-    if not os.path.exists(ENV_PATH):
-        if os.path.exists(".env.example"):
-            shutil.copy(".env.example", ENV_PATH)
-            print("✅ Created .env from .env.example")
-        else:
-            open(ENV_PATH, "w").close()
-            print("⚠️  .env.example not found, creating empty .env")
-
-    # Read current env content
-    with open(ENV_PATH, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-
-    env_data = {}
-    for line in lines:
-        if "=" in line and not line.startswith("#"):
-            key, val = line.strip().split("=", 1)
-            env_data[key] = val
-
-    # Ask for Gmail setup if missing
-    gmail_user = env_data.get("MAIL_USERNAME", "")
-    gmail_pass = env_data.get("MAIL_PASSWORD", "")
-
-    if not gmail_user or not gmail_pass:
-        print("\n✉️  Gmail setup required for sending emails.")
-        print("You can generate an App Password here:")
-        print("👉 https://support.google.com/accounts/answer/185833\n")
-
-        gmail_user = input("Enter your Gmail address: ").strip()
-        gmail_pass = input("Enter your Gmail App Password: ").strip()
-
-        env_data.update({
-            "MAIL_MAILER": "smtp",
-            "MAIL_HOST": "smtp.gmail.com",
-            "MAIL_PORT": "587",
-            "MAIL_USERNAME": gmail_user,
-            "MAIL_PASSWORD": gmail_pass,
-            "MAIL_ENCRYPTION": "tls",
-            "MAIL_FROM_ADDRESS": gmail_user,
-            "MAIL_FROM_NAME": "\"HR Connect\""
-        })
-
-    # Rewrite .env with updated values
-    with open(ENV_PATH, "w", encoding="utf-8") as f:
-        for k, v in env_data.items():
-            f.write(f"{k}={v}\n")
-
-    print("✅ .env file configured successfully!\n")
-
-def main():
-    print("=" * 70)
-    print("🚀 HR Connect - Laravel Auto Setup & Launcher")
-    print("=" * 70)
-
-    requirements = {
-        "PHP": check_command("php"),
-        "Composer": check_command("composer"),
-        "Node.js": check_command("node"),
-        "NPM": check_command("npm"),
-    }
-
-    for tool, ok in requirements.items():
-        print(f"{'✅' if ok else '❌'} {tool}")
-        if not ok:
-            print(f"Please install {tool} before running HR Connect.")
-            return
-
-    setup_env()
-
-    print("\n📦 Installing Composer packages...")
-    run_command("composer install")
-
-    print("\n📦 Installing Node.js packages...")
-    run_command("npm install")
-
-    print("\n🔑 Generating app key...")
-    run_command("php artisan key:generate")
-
-    print("\n🧱 Running database migrations...")
-    run_command("php artisan migrate --seed")
-
-    print("\n🌐 Starting Laravel development server...")
-    print("App running at 👉 http://127.0.0.1:8000")
-    print("Press CTRL+C to stop.\n")
-
-    run_command("php artisan serve")
+def serve_app():
+    print("\n🚀 Starting HR Connect server...")
+    subprocess.run("php artisan serve", shell=True)
 
 if __name__ == "__main__":
+    os.system("cls" if platform.system() == "Windows" else "clear")
+    print("💼 HR Connect Auto Setup\n=========================\n")
+
+    print("Checking environment...\n")
+    time.sleep(1)
+
     try:
-        main()
-    except KeyboardInterrupt:
-        print("\n🛑 HR Connect stopped by user.")
-        sys.exit(0)
+        subprocess.run(["php", "--version"], capture_output=True, check=True)
+        subprocess.run(["composer", "--version"], capture_output=True, check=True)
+        subprocess.run(["npm", "--version"], capture_output=True, check=True)
+    except:
+        print("❌ Missing dependencies! Please install PHP, Composer, and Node.js.")
+        sys.exit(1)
+
+    install_dependencies()
+    serve_app()
